@@ -22,6 +22,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        if (MenuManager.isPlayerLocked) // Assuming GameManager manages the lock state
+        {
+            animator.SetFloat("Speed", 0f); // Reset animation state
+            return;
+        }
         // Check if the player is grounded
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
