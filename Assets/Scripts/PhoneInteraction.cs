@@ -24,6 +24,7 @@ public class PhoneInteraction : MonoBehaviour
 
     private Vector3 originalPlayerPosition; // Save player's original position
     private Quaternion originalPlayerRotation; // Save player's original rotation
+    private bool isInputBlocked = false; // To block input briefly
 
     void Start()
     {
@@ -54,6 +55,8 @@ public class PhoneInteraction : MonoBehaviour
 
     void Update()
     {
+        if (isInputBlocked) return; // Block inputs while transitioning or shortly after exiting the menu
+
         // Show the menu when the player presses E near the phone
         if (isPlayerNear && Input.GetKeyDown(KeyCode.E) && !isTransitioning)
         {
@@ -63,7 +66,6 @@ public class PhoneInteraction : MonoBehaviour
         // Navigate the menu
         if (isMenuActive)
         {
-            HandleMenuNavigation();
 
             // Exit the menu when ESC is pressed
             if (Input.GetKeyDown(KeyCode.Escape) && !isTransitioning)
@@ -136,27 +138,8 @@ public class PhoneInteraction : MonoBehaviour
         isTransitioning = false;
     }
 
-    private void HandleMenuNavigation()
-    {
-        // Navigate menu buttons with W and S
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            selectedButtonIndex = (selectedButtonIndex - 1 + menuButtons.Length) % menuButtons.Length;
-            HighlightMenuButton();
-        }
+   
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            selectedButtonIndex = (selectedButtonIndex + 1) % menuButtons.Length;
-            HighlightMenuButton();
-        }
-
-        // Activate the selected button with Enter or E
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return))
-        {
-            menuButtons[selectedButtonIndex].onClick.Invoke();
-        }
-    }
 
     private void HighlightMenuButton()
     {
