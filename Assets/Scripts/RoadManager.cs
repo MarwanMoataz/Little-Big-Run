@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RoadManager : MonoBehaviour
@@ -67,5 +65,10 @@ public class RoadManager : MonoBehaviour
         int roadIndex = System.Array.IndexOf(roads, road);
         Destroy(road); // Destroy the old road
         roads[roadIndex] = newRoad; // Replace it with the new one
+    }
+
+    public void StopRoad()
+    {
+        roadSpeed = 0f; // Stop the road movement
     }
 }

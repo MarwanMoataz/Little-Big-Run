@@ -79,10 +79,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f2d5ebeb343ff7b4fa4bf80012743e14,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2912852189703438020}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f2d5ebeb343ff7b4fa4bf80012743e14,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7232020249820569874}
   m_SourcePrefab: {fileID: 100100000, guid: f2d5ebeb343ff7b4fa4bf80012743e14, type: 3}
 --- !u!1 &7413324049682693868 stripped
@@ -117,21 +113,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.08, z: 0}
---- !u!114 &2912852189703438020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7413324049682693868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08472774fd68b8844b9a7a8b2bce28ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 46.9
-  jumpHeight: 2
-  gravity: -9.81
 --- !u!95 &7232020249820569874
 Animator:
   serializedVersion: 5

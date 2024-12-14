@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.SceneManagement;
 
 public class RunPlayerController : MonoBehaviour
 {
+    public RoadManager roadManager; // Reference to the RoadManager script
     public float laneDistance = 3f; // Distance between lanes
     public float jumpForce = 5f; // Force for jumping
     public float gravity = -9.81f; // Gravity value
@@ -13,6 +12,7 @@ public class RunPlayerController : MonoBehaviour
 
     private int currentLane = 1; // 0 = left, 1 = middle, 2 = right
     private bool isSliding = false;
+    private bool isGameOver = false; // To prevent multiple triggers
     private CharacterController characterController;
 
     private Vector3 targetPosition; // Target position for the player
@@ -35,10 +35,17 @@ public class RunPlayerController : MonoBehaviour
 
         originalHeight = characterController.height;
         targetPosition = transform.position;
+
+        if (roadManager == null)
+        {
+            Debug.LogError("RoadManager reference is missing in RunPlayerController!");
+        }
     }
 
     void Update()
     {
+        if (isGameOver || Time.timeScale == 0) return; // Prevent updates if game is over or paused
+
         // Handle lane switching
         if (Input.GetKeyDown(KeyCode.D)) // Move Right
         {
@@ -77,9 +84,6 @@ public class RunPlayerController : MonoBehaviour
         // Apply movement only for side and vertical directions
         characterController.Move(moveDirection * Time.deltaTime);
 
-        // Trigger running animation
-        animator.SetBool("isRunning", true);
-
         // Handle sliding
         if (Input.GetKeyDown(KeyCode.S) && !isSliding)
         {
@@ -95,6 +99,45 @@ public class RunPlayerController : MonoBehaviour
                 EndSlide();
             }
         }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        // Check if the collided object has the "Obstacle" tag
+        if (hit.gameObject.CompareTag("Obstacle") && !isGameOver)
+        {
+            TriggerGameOver();
+        }
+    }
+
+    private void TriggerGameOver()
+    {
+        isGameOver = true; // Prevent re-triggering
+        Debug.Log("Player collided with an obstacle. Playing Game Over animation and switching scene.");
+
+        // Stop the road movement
+        if (roadManager != null)
+        {
+            roadManager.StopRoad();
+        }
+
+        // Play the "GameOver" animation
+        if (animator != null)
+        {
+            animator.SetTrigger("GameOver");
+        }
+
+        // Wait for the animation to complete before switching the scene
+        StartCoroutine(GameOverSequence());
+    }
+
+    private IEnumerator GameOverSequence()
+    {
+        // Wait for the "GameOver" animation to finish
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
+        // Switch to the Game Over scene with ID 3
+        SceneManager.LoadScene(3);
     }
 
     private void StartJump()
