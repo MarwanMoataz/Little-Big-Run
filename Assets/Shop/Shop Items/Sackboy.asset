@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88f58cdb8c3e2a48867192dc1892543, type: 3}
+  m_Name: Sackboy
+  m_EditorClassIdentifier: 
+  itemName: Sackboy
+  price: 0
+  model: {fileID: 4016249671657768682, guid: 7cfb590f9f05d2f438cbfcdf5b49fcd9, type: 3}
+  icon: {fileID: 21300000, guid: ef5d6dd2962fec248b3dea99dab5921b, type: 3}
