@@ -5,7 +5,9 @@ public class RoadManager : MonoBehaviour
     public GameObject[] roadPrefabs; // Array of road prefabs for variety
     public int roadCount = 5; // Number of road segments to load initially
     public float roadLength = 20f; // Length of each road segment
-    public float roadSpeed = 5f; // Speed at which the road moves
+    public float roadSpeed = 5f; // Initial speed at which the road moves
+    public float speedIncreaseRate = 0.1f; // Rate at which speed increases (per second)
+    public float maxSpeed = 20f; // Maximum speed limit for the road
 
     private GameObject[] roads; // Array to hold active road segments
 
@@ -24,6 +26,7 @@ public class RoadManager : MonoBehaviour
 
     void Update()
     {
+        IncreaseRoadSpeed();  // Increase road speed over time
         MoveRoads();
     }
 
@@ -31,7 +34,7 @@ public class RoadManager : MonoBehaviour
     {
         for (int i = 0; i < roads.Length; i++)
         {
-            // Move each road backward
+            // Move each road backward based on current speed
             roads[i].transform.Translate(Vector3.back * roadSpeed * Time.deltaTime);
 
             // Check if the road has moved out of view
@@ -44,6 +47,15 @@ public class RoadManager : MonoBehaviour
 
     void RecycleRoad(GameObject road)
     {
+        // Check if the road contains any obstacles and clear them
+        foreach (Transform child in road.transform)
+        {
+            if (child.CompareTag("Obstacle"))
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         // Find the farthest road segment
         float farthestZ = float.MinValue;
         foreach (GameObject r in roads)
@@ -54,17 +66,18 @@ public class RoadManager : MonoBehaviour
             }
         }
 
-        // Randomly select a new road prefab
-        int randomIndex = Random.Range(0, roadPrefabs.Length);
-
-        // Replace the road's content by destroying and instantiating a new prefab
+        // Reposition the road segment
         Vector3 newPosition = new Vector3(0, 0, farthestZ + roadLength);
-        GameObject newRoad = Instantiate(roadPrefabs[randomIndex], newPosition, Quaternion.identity);
+        road.transform.position = newPosition;
+    }
 
-        // Replace the old road in the array
-        int roadIndex = System.Array.IndexOf(roads, road);
-        Destroy(road); // Destroy the old road
-        roads[roadIndex] = newRoad; // Replace it with the new one
+    void IncreaseRoadSpeed()
+    {
+        // Gradually increase the road speed over time, without exceeding the max speed
+        if (roadSpeed < maxSpeed)
+        {
+            roadSpeed += speedIncreaseRate * Time.deltaTime;
+        }
     }
 
     public void StopRoad()

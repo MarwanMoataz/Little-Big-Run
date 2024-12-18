@@ -30,7 +30,7 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateCollectiblesUI()
     {
-        collectiblesText.text = $"Collectibles: {playerCollectibles}";
+        collectiblesText.text = $"Orbs: {playerCollectibles}";
     }
 
     private void CreateShopItemUI(ShopItem item)

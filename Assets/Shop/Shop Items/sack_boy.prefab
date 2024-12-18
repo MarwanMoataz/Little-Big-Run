@@ -400,8 +400,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5827872119458876058, guid: 00cca48237139d6469353063ae2ad6c2,
         type: 3}
+      propertyPath: m_Height
+      value: 2.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827872119458876058, guid: 00cca48237139d6469353063ae2ad6c2,
+        type: 3}
       propertyPath: m_Radius
-      value: 0.16
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827872119458876058, guid: 00cca48237139d6469353063ae2ad6c2,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5827872119458876058, guid: 00cca48237139d6469353063ae2ad6c2,
         type: 3}
@@ -561,12 +571,12 @@ PrefabInstance:
     - target: {fileID: 7413324049682693868, guid: 00cca48237139d6469353063ae2ad6c2,
         type: 3}
       propertyPath: m_Name
-      value: sack_boy Variant
+      value: sack_boy
       objectReference: {fileID: 0}
     - target: {fileID: 7413324049682693868, guid: 00cca48237139d6469353063ae2ad6c2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7413324049682693868, guid: 00cca48237139d6469353063ae2ad6c2,
         type: 3}
@@ -695,10 +705,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7413324049682693868, guid: 00cca48237139d6469353063ae2ad6c2,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4095428892473205035}
-    - targetCorrespondingSourceObject: {fileID: 7413324049682693868, guid: 00cca48237139d6469353063ae2ad6c2,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2943361640901977694}
   m_SourcePrefab: {fileID: 100100000, guid: 00cca48237139d6469353063ae2ad6c2, type: 3}
 --- !u!1 &4016249671657768682 stripped
@@ -707,29 +713,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5863122932636760070}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &4095428892473205035
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4016249671657768682}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.62
-  m_Height: 2.26
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.97, z: 0}
 --- !u!114 &2943361640901977694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,8 +725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca80c8849c54f6c41bd84a075f29b1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadManager: {fileID: 0}
   laneDistance: 2.5
-  jumpForce: 5
-  gravity: -9.81
-  slideDuration: 0.5
+  jumpForce: 4.48
+  gravity: -10.4
+  slideDuration: 1.04

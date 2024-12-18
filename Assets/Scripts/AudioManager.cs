@@ -16,6 +16,22 @@ public class AudioManager : MonoBehaviour
     public List<AudioClip> collectibleSounds; // Sequential sounds
     private int collectibleSoundIndex = 0;     // Tracks the current sound index
     private Coroutine resetCoroutine;          // Coroutine to handle reset logic
+    public float musicVolume = 1f; // Range from 0 to 1 for music volume
+    public float soundVolume = 1f; // Range from 0 to 1 for sound effects volume
+
+    // Method to set music volume
+    public void SetMusicVolume(float volume)
+    {
+        musicVolume = volume;
+        audioSource.volume = musicVolume; // Adjust music volume
+    }
+
+    // Method to set sound effects volume
+    public void SetSoundVolume(float volume)
+    {
+        soundVolume = volume;
+        collectibleAudioSource.volume = soundVolume; // Adjust sound effects volume
+    }
 
     void Awake()
     {
@@ -48,6 +64,7 @@ public class AudioManager : MonoBehaviour
     {
         // Play the music based on the initial scene
         PlayMusicForScene(SceneManager.GetActiveScene().name);
+
     }
 
     void OnEnable()
@@ -89,20 +106,22 @@ public class AudioManager : MonoBehaviour
     {
         if (collectibleSounds.Count == 0) return;
 
+        // Apply sound volume
+        collectibleAudioSource.volume = soundVolume;
+
         // Play the current collectible sound
         collectibleAudioSource.clip = collectibleSounds[collectibleSoundIndex];
         collectibleAudioSource.Play();
 
-        // Increment the sound index
         collectibleSoundIndex = Mathf.Min(collectibleSoundIndex + 1, collectibleSounds.Count - 1);
 
-        // Reset the reset timer
         if (resetCoroutine != null)
         {
             StopCoroutine(resetCoroutine);
         }
         resetCoroutine = StartCoroutine(ResetSoundSequenceAfterDelay());
     }
+
 
     private IEnumerator ResetSoundSequenceAfterDelay()
     {
