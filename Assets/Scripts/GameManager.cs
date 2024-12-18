@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     private bool magnetActive = false;
     private float magnetRange = 0f;
     private float magnetSpeed = 0f;
+
+    private Transform playerTransform;
+
     private void Awake()
     {
         if (instance == null)
@@ -52,6 +55,10 @@ public class GameManager : MonoBehaviour
         elapsedTime += Time.deltaTime;
         sessionScore = Mathf.FloorToInt(elapsedTime);
         UpdateScoreUI();
+        if (magnetActive && playerTransform != null)
+        {
+            ApplyMagnetEffect();
+        }
     }
 
     public void UpdateScore(int value)
@@ -148,25 +155,55 @@ public class GameManager : MonoBehaviour
         CharacterManager characterManager = FindObjectOfType<CharacterManager>();
         return characterManager.characters.Find(c => c.itemName == name);
     }
-    public void ActivateMagnet(float range, float speed)
+    public void ActivateMagnet(float range, float speed, Transform player)
     {
         magnetActive = true;
         magnetRange = range;
         magnetSpeed = speed;
+        playerTransform = player;
 
-        // Enable magnet effect for all collectibles within range
-        Collider[] collectibles = Physics.OverlapSphere(playerSpawnPoint.position, magnetRange, LayerMask.GetMask("Collectible"));
+        Collider[] collectibles = Physics.OverlapSphere(player.position, magnetRange, LayerMask.GetMask("Collectible"));
         foreach (var collectible in collectibles)
         {
-            collectible.GetComponent<Collectible>().EnableMagnet(playerSpawnPoint, magnetSpeed);
+            collectible.GetComponent<Collectible>().EnableMagnet(player, magnetSpeed);
         }
 
         Debug.Log("Magnet Power-Up Activated!");
+
+        // Start deactivation timer
+        StartCoroutine(MagnetTimer(5f)); // Example: 5 seconds duration
     }
+
+    private IEnumerator MagnetTimer(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        DeactivateMagnet();
+    }
+
+
+    private void ApplyMagnetEffect()
+    {
+        if (!magnetActive || playerTransform == null) return;
+
+        Collider[] collectibles = Physics.OverlapSphere(playerTransform.position, magnetRange, LayerMask.GetMask("Collectible"));
+        foreach (var collectibleCollider in collectibles)
+        {
+            Collectible collectibleScript = collectibleCollider.GetComponent<Collectible>();
+            if (collectibleScript != null && !collectibleScript.IsMagnetActive())
+            {
+                collectibleScript.EnableMagnet(playerTransform, magnetSpeed);
+            }
+        }
+    }
+
+
+
 
     public void DeactivateMagnet()
     {
         magnetActive = false;
+        playerTransform = null; // Clear the player transform
 
         // Disable magnet effect for all collectibles
         Collectible[] allCollectibles = FindObjectsOfType<Collectible>();
@@ -177,5 +214,6 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Magnet Power-Up Deactivated!");
     }
+
 }
 

@@ -121,6 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797ee3642d0dda140a7447f58f5d63e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magnetDuration: 10
-  attractionRadius: 10
-  attractionSpeed: 50
+  magnetDuration: 0.67
+  attractionRadius: 10.4
+  attractionSpeed: 112

@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public class MagnetPowerUp : MonoBehaviour
 {
@@ -13,20 +11,23 @@ public class MagnetPowerUp : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            StartCoroutine(ActivateMagnet(other.gameObject));
+            StartCoroutine(ActivateMagnet(other.transform));
         }
     }
 
-    private IEnumerator ActivateMagnet(GameObject player)
+    private IEnumerator ActivateMagnet(Transform player)
     {
-        GameManager.instance.ActivateMagnet(attractionRadius, attractionSpeed);
+        GameManager.instance.ActivateMagnet(attractionRadius, attractionSpeed, player);
 
         // Hide the power-up during activation
         gameObject.SetActive(false);
 
+        // Wait for the magnet duration to end
         yield return new WaitForSeconds(magnetDuration);
 
         // Deactivate the magnet effect
         GameManager.instance.DeactivateMagnet();
+
     }
+
 }

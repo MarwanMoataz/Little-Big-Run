@@ -6,6 +6,7 @@ public class Collectible : MonoBehaviour
     private Transform magnetTarget;
     private float magnetSpeed = 0f;
     public float rotationSpeed = 50f;
+
     private void Update()
     {
         RotateCollectible();
@@ -14,7 +15,18 @@ public class Collectible : MonoBehaviour
         if (magnetTarget != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, magnetTarget.position, magnetSpeed * Time.deltaTime);
+
+            // Check if close enough to collect
+            if (Vector3.Distance(transform.position, magnetTarget.position) < 0.1f && !isCollected)
+            {
+                Collect(magnetTarget);
+            }
+
         }
+    }
+    public bool IsMagnetActive()
+    {
+        return magnetTarget != null;
     }
     private void RotateCollectible()
     {

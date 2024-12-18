@@ -75,12 +75,12 @@ public class RunPlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D) && currentLane < 2)
         {
             currentLane++;
-            animator.SetTrigger("MoveRight");
+            //animator.SetTrigger("MoveRight");
         }
         else if (Input.GetKeyDown(KeyCode.A) && currentLane > 0)
         {
             currentLane--;
-            animator.SetTrigger("MoveLeft");
+            //animator.SetTrigger("MoveLeft");
         }
 
         UpdateTargetPosition();
