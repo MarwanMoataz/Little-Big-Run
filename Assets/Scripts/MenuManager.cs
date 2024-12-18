@@ -7,9 +7,7 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public GameObject mainMenu; // Reference to the Main Menu panel
-    public GameObject settingsMenu; // Reference to the Settings Menu panel
-    public Slider soundSlider; // Reference to the Sound Slider
-    public Slider musicSlider; // Reference to the Music Slider
+    public GameObject descriptionMenu; // Reference to the Settings Menu panel
     public Button backButton; // Back button in the Settings Menu
     public Button exitButton; // Back button in Main Menu
     public List<Button> mainMenuButtons; // All buttons in the main menu
@@ -24,17 +22,13 @@ public class MenuManager : MonoBehaviour
     {
         // Start with only the Main Menu visible
         mainMenu.SetActive(true);
-        settingsMenu.SetActive(false);
+        descriptionMenu.SetActive(false);
         currentMenu = mainMenu;
         currentButtons = mainMenuButtons;
 
-        // Load saved sound and music volumes
-        soundSlider.value = PlayerPrefs.GetFloat("SoundVolume", 1f);
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        
 
-        // Add listeners to sliders
-        soundSlider.onValueChanged.AddListener(SetSoundVolume);
-        musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        
 
         // Add listener for the Back button
         backButton.onClick.AddListener(OpenMainMenu);
@@ -68,7 +62,7 @@ public class MenuManager : MonoBehaviour
     // Handles the Back button or ESC action
     public void HandleBackAction()
     {
-        if (currentMenu == settingsMenu)
+        if (currentMenu == descriptionMenu)
         {
             OpenMainMenu();
         }
@@ -84,7 +78,7 @@ public class MenuManager : MonoBehaviour
     // Opens the Main Menu
     public void OpenMainMenu()
     {
-        settingsMenu.SetActive(false);
+        descriptionMenu.SetActive(false);
         mainMenu.SetActive(true);
         currentMenu = mainMenu;
         currentButtons = mainMenuButtons;
@@ -96,8 +90,8 @@ public class MenuManager : MonoBehaviour
     public void OpenSettingsMenu()
     {
         mainMenu.SetActive(false);
-        settingsMenu.SetActive(true);
-        currentMenu = settingsMenu;
+        descriptionMenu.SetActive(true);
+        currentMenu = descriptionMenu;
         currentButtons = settingsMenuButtons;
         selectedButtonIndex = 0;
         HighlightButton();
@@ -107,7 +101,7 @@ public class MenuManager : MonoBehaviour
     public void ExitMenu()
     {
         mainMenu.SetActive(false);
-        settingsMenu.SetActive(false);
+        descriptionMenu.SetActive(false);
         UnlockPlayer();
         Debug.Log("Exiting menu.");
     }
@@ -126,19 +120,7 @@ public class MenuManager : MonoBehaviour
         Debug.Log("Player controls unlocked.");
     }
 
-    // Saves the sound volume
-    private void SetSoundVolume(float value)
-    {
-        PlayerPrefs.SetFloat("SoundVolume", value);
-        PlayerPrefs.Save();
-    }
-
-    // Saves the music volume
-    private void SetMusicVolume(float value)
-    {
-        PlayerPrefs.SetFloat("MusicVolume", value);
-        PlayerPrefs.Save();
-    }
+   
 
     // Exits the game
     public void ExitGame()

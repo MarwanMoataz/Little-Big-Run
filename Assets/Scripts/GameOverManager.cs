@@ -19,8 +19,8 @@ public class GameOverManager : MonoBehaviour
         int sessionCollectibles = GameManager.instance.GetSessionCollectibles();
 
         // Display session and total collectibles
-        collectiblesText.text = $"Session Collectibles: {sessionCollectibles}\n" +
-                                $"Total Collectibles: {totalCollectibles}";
+        collectiblesText.text = $"Session Orbs: {sessionCollectibles}\n" +
+                                $"Total Orbs: {totalCollectibles}";
 
         // Retrieve and display leaderboard
         int finalScore = GameManager.instance.GetSessionScore();

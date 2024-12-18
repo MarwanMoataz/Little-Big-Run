@@ -30,7 +30,7 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateCollectiblesUI()
     {
-        collectiblesText.text = $"Collectibles: {playerCollectibles}";
+        collectiblesText.text = $"Orbs: {playerCollectibles}";
     }
 
     private void CreateShopItemUI(ShopItem item)
@@ -47,7 +47,6 @@ public class ShopManager : MonoBehaviour
         if (unlocked == 1)
         {
             itemUI.transform.Find("BuyButton").GetComponent<Button>().interactable = false;
-            // Optionally add a visual cue like a lock icon or a greyed-out appearance
         }
     }
 

@@ -16,7 +16,9 @@ public class GameManager : MonoBehaviour
     private float elapsedTime = 0f;         // Elapsed time for time-based scoring
     private GameObject currentCharacter;    // Current character instance
     public Transform playerSpawnPoint;      // Spawn point for the player
-
+    private bool magnetActive = false;
+    private float magnetRange = 0f;
+    private float magnetSpeed = 0f;
     private void Awake()
     {
         if (instance == null)
@@ -146,6 +148,34 @@ public class GameManager : MonoBehaviour
         CharacterManager characterManager = FindObjectOfType<CharacterManager>();
         return characterManager.characters.Find(c => c.itemName == name);
     }
+    public void ActivateMagnet(float range, float speed)
+    {
+        magnetActive = true;
+        magnetRange = range;
+        magnetSpeed = speed;
 
+        // Enable magnet effect for all collectibles within range
+        Collider[] collectibles = Physics.OverlapSphere(playerSpawnPoint.position, magnetRange, LayerMask.GetMask("Collectible"));
+        foreach (var collectible in collectibles)
+        {
+            collectible.GetComponent<Collectible>().EnableMagnet(playerSpawnPoint, magnetSpeed);
+        }
+
+        Debug.Log("Magnet Power-Up Activated!");
+    }
+
+    public void DeactivateMagnet()
+    {
+        magnetActive = false;
+
+        // Disable magnet effect for all collectibles
+        Collectible[] allCollectibles = FindObjectsOfType<Collectible>();
+        foreach (var collectible in allCollectibles)
+        {
+            collectible.DisableMagnet();
+        }
+
+        Debug.Log("Magnet Power-Up Deactivated!");
+    }
 }
 
